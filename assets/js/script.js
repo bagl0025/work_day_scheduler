@@ -7,7 +7,7 @@ $("#currentDay").text(currentDay);
 // create scheduler rows and time block
 for (var i = 8; i < 18; i++){
     var rowEl = $("<div>").addClass("row col-12");
-    var timeEl = $("<div>").addClass("hour time-block col-1");
+    var timeEl = $("<div>").addClass("hour time-block col-2 col-lg-1 d-flex justify-content-center");
     // convert 24hr time to 12 hour time
     if (i > 12) {
         timeEl.text(i - 12 + "PM");
@@ -21,18 +21,18 @@ for (var i = 8; i < 18; i++){
     apptEl.attr("contentEditable", "true");
 
     if ((i) < currentTime) {
-        apptEl.addClass("past col-10");
+        apptEl.addClass("past col-8 col-lg-10 col-md-8");
     }
     else if ((i) === currentTime) {
-        apptEl.addClass("present col-10");
+        apptEl.addClass("present col-8 col-lg-10 col-md-8");
     }
     else {
-        apptEl.addClass("future col-10");
+        apptEl.addClass("future col-8 col-lg-10 col-md-8");
     }
 
     // create save buttton
     var saveBtnEl = $("<div id='saveRow-" + i + "' ></div>")
-        .addClass("saveBtn col-1 fa-solid fa-floppy-disk fa-2xl");
+        .addClass("saveBtn col-2 col-lg-1 fa-solid fa-floppy-disk fa-fw fa-2xl d-flex justify-content-center");
     rowEl.append(timeEl, apptEl, saveBtnEl);
     $(".container").append(rowEl);    
 }
@@ -55,10 +55,6 @@ var loadAppts = function() {
         }
     }
 };
-
-// $("[id*='timeBlock-']").on("click", function(event) {
-//     $(event.target).attr("contentEditable", "true");
-// });
 
 // save content to array and then localstorage
 $("[id*='saveRow-']").on("click", function(event) {
