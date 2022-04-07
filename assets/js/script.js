@@ -1,32 +1,86 @@
 var currentDay = moment().format("dddd, MMMM Do");
 var currentTime = moment().hours(); //24 hour
+var apptArray = {};
 
 $("#currentDay").text(currentDay);
 
-// create scheduler rows
-//maybe simplify current time - need to ad 9 etc
-    for (var i = 0; i < 9; i++){
-        var rowEl = $("<div>").addClass("row col-12");
-        var timeEl = $("<div>").addClass("hour time-block col-1");
-        if (i < 4) {
-            timeEl.text(i + 9);
-        }
-        else {
-            timeEl.text(i -3);
-        }
-        var apptEl = $("<div>").addClass("col-10");
-            console.log(currentTime, i)
-            if ((i + 9) < currentTime) {
-                apptEl.addClass("past");
-            }
-            else if ((i + 9) === currentTime) {
-                apptEl.addClass("present");
+// create scheduler rows and time block
+for (var i = 8; i < 18; i++){
+    var rowEl = $("<div>").addClass("row col-12");
+    var timeEl = $("<div>").addClass("hour time-block col-1");
+    // convert 24hr time to 12 hour time
+    if (i > 12) {
+        timeEl.text(i - 12 + "PM");
+    }
+    else {
+        timeEl.text(i + "AM");
+    }
+
+    // create middle col to hold appt text
+    var apptEl = $("<div id='timeBlock-" + i + "' ></div>");
+    apptEl.attr("contentEditable", "true");
+
+    if ((i) < currentTime) {
+        apptEl.addClass("past col-10");
+    }
+    else if ((i) === currentTime) {
+        apptEl.addClass("present col-10");
+    }
+    else {
+        apptEl.addClass("future col-10");
+    }
+
+    // create save buttton
+    var saveBtnEl = $("<div id='saveRow-" + i + "' ></div>")
+        .addClass("saveBtn col-1 fa-solid fa-floppy-disk fa-2xl");
+    rowEl.append(timeEl, apptEl, saveBtnEl);
+    $(".container").append(rowEl);    
+}
+
+// load appointments after page refresh
+var loadAppts = function() {
+    apptArray = JSON.parse(localStorage.getItem("appointments"));
+    if (apptArray === null || !apptArray) {
+        var scores = {};
+    }
+    else {
+        for (var i = 8; i < 18; i++) {
+            // skip null entries
+            if(apptArray[i]) {
+                $("#timeBlock-"+i).text(apptArray[i][1]);
             }
             else {
-                apptEl.addClass("future");
+                i++;
             }
-        var saveBtnEl = $("<div>").addClass("saveBtn col-1");
-        saveBtnEl.text = ("SAVE");
-        rowEl.append(timeEl, apptEl, saveBtnEl);
-        $(".container").append(rowEl);
+        }
     }
+};
+
+// $("[id*='timeBlock-']").on("click", function(event) {
+//     $(event.target).attr("contentEditable", "true");
+// });
+
+// save content to array and then localstorage
+$("[id*='saveRow-']").on("click", function(event) {
+    var apptTime = event.target.id.split("-")[1];
+    var apptInfo = document.getElementById("timeBlock-" + apptTime).innerHTML;
+    apptArray[apptTime]=["timeBlock-" + apptTime, apptInfo];
+
+    // popup save message
+    localStorage.setItem("appointments", JSON.stringify(apptArray));
+    var lText = "Appointment Added to ";
+    var rText = "<span style='color:red'>localStorage</span>";
+    $("#saveSuccess").append(lText, rText, " ✔");
+    
+    var clearSaveMsg = setInterval(function() {
+        $("#saveSuccess").empty();
+    }, 3000);
+});
+
+loadAppts();
+
+// refresh page every 15 minutes to update colors
+// this may not be the best way
+setTimeout(function() {
+    location.reload();
+}, (1000 * 60 * 15));
