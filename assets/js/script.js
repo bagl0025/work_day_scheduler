@@ -41,7 +41,7 @@ for (var i = 8; i < 18; i++){
 var loadAppts = function() {
     apptArray = JSON.parse(localStorage.getItem("appointments"));
     if (apptArray === null || !apptArray) {
-        var scores = {};
+        var apptArray = {};
     }
     else {
         for (var i = 8; i < 18; i++) {
