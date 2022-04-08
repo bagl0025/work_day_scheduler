@@ -7,16 +7,16 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ---
 
-Work Day Sheduler is .....
+Work Day Sheduler is a very simple appointment scheduler. You are presented with a column of hourly time slots from 9 AM to 5 PM. Grey rows indicate times that have passed, red is present time, and green rows are future time slots. Get organized!
 ​
 ## User Interface
 <img src="./assets/images/work_day_scheduler.png" alt="work day scheduler" width="800"/>
 
 ## Usage
-After 
+Click on a appointment slot to enter a meeting description. You can edit the calendar by selecting text and changing it as meany times as you want. Pressing the save button will save your calendar to local storage so it will persist between sessions.
 
 ## Links to website and Github
-[Code-Quiz website](https://bagl0025.github.io/work_day_scheduler)
+[Work Day Schduler website](https://bagl0025.github.io/work_day_scheduler)
 
 [Github Repository](https://github.com/bagl0025/work_day_scheduler.git)
 

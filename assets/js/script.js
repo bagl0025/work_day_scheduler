@@ -5,12 +5,15 @@ var apptArray = {};
 $("#currentDay").text(currentDay);
 
 // create scheduler rows and time block
-for (var i = 8; i < 18; i++){
+for (var i = 9; i < 18; i++){
     var rowEl = $("<div>").addClass("row col-12");
     var timeEl = $("<div>").addClass("hour time-block col-2 col-lg-1 d-flex justify-content-center");
     // convert 24hr time to 12 hour time
     if (i > 12) {
         timeEl.text(i - 12 + "PM");
+    }
+    else if (i === 12) {
+        timeEl.text("12PM");
     }
     else {
         timeEl.text(i + "AM");
@@ -44,7 +47,7 @@ var loadAppts = function() {
         var apptArray = {};
     }
     else {
-        for (var i = 8; i < 18; i++) {
+        for (var i = 9; i < 18; i++) {
             // skip null entries
             if(apptArray[i]) {
                 $("#timeBlock-"+i).text(apptArray[i][1]);
